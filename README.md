@@ -18,6 +18,10 @@
 `npx playwright test --headed`
 - view report  
 `npx playwright show-report`
+- run Trace Viewer on zip file
+`npx playwright show-trace trace.zip`
+- run tests form exact file
+`npx playwright test tests/login.spec.ts`
 
 ## Playwright Config modifications
 - config file `playwright.config.ts`
