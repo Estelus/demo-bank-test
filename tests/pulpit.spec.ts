@@ -59,7 +59,7 @@ test.describe('Pulpit tests', () => {
       await expect(page.locator('#owner')).toHaveText(`${accountOwner}`); 
     });
 
-    test('click to see receipts and expenses', async ({ page }) => {
+      test('click to see receipts and expenses', async ({ page }) => {
 
       // Act
       await page.getByTestId('login-input').fill(login);
