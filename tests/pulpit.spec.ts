@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from '../pages/login.page';
+import { loginData } from '../test-data/login.data';
 
 test.describe('Pulpit tests', () => { 
       // Arrange
@@ -7,19 +9,20 @@ test.describe('Pulpit tests', () => {
     await page.goto(url)  
   });
     const url = 'https://demo-bank.vercel.app/'
-    const login = 'AndrzejD'
-    const password = 'test123@'
+    const userID = loginData.userId
+    const userPassword = loginData.userPassword
+    const expectedUsername = 'Jan Demobankowy'
     const reciverID = '2'
     const transferAmount = '100'
     const transferTitle = 'Zwrot środków'
     const expectedtransferReciver = 'Chuck Demobankowy'
-    const accountOwner = 'Jan Demobankowy'
 
   test('Quick payment with correct data', async ({ page }) => {
     // Act
-    await page.getByTestId('login-input').fill(login);
-    await page.getByTestId('password-input').fill(password);
-    await page.getByTestId('login-button').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(userID);
+    await loginPage.passwordInput.fill(userPassword);
+    await loginPage.loginButton.click();
       
     await page.locator('#widget_1_transfer_receiver').selectOption(reciverID);
     await page.locator('#widget_1_transfer_amount').fill(transferAmount);
@@ -33,9 +36,10 @@ test.describe('Pulpit tests', () => {
 
   test('Quick phone recharge with correct data', async ({ page }) => {
     // Act
-    await page.getByTestId('login-input').fill(login);
-    await page.getByTestId('password-input').fill(password);
-    await page.getByTestId('login-button').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(userID);
+    await loginPage.passwordInput.fill(userPassword);
+    await loginPage.loginButton.click();
 
     await page.locator('#widget_1_topup_receiver').selectOption('502 xxx xxx');
     await page.locator('#widget_1_topup_amount').fill(transferAmount);
@@ -48,23 +52,25 @@ test.describe('Pulpit tests', () => {
 
   test('Click to see account details', async ({ page }) => {
     // Act
-    await page.getByTestId('login-input').fill(login);
-    await page.getByTestId('password-input').fill(password);
-    await page.getByTestId('login-button').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(userID);
+    await loginPage.passwordInput.fill(userPassword);
+    await loginPage.loginButton.click();
 
     await page.locator('#accounts_list').getByText('więcej').click();
     await page.locator('#owner').click();
 
     // Assert
-    await expect(page.locator('#owner')).toHaveText(`${accountOwner}`); 
+    await expect(page.locator('#owner')).toHaveText(`${expectedUsername}`); 
   });
 
   test('Check receipts and expenses', async ({ page }) => {
 
     // Act
-    await page.getByTestId('login-input').fill(login);
-    await page.getByTestId('password-input').fill(password);
-    await page.getByTestId('login-button').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(userID);
+    await loginPage.passwordInput.fill(userPassword);
+    await loginPage.loginButton.click();
 
     await page.locator('form').filter({ hasText: 'manager finansowy wpływy i' }).getByRole('combobox').selectOption('1');
 
@@ -74,9 +80,10 @@ test.describe('Pulpit tests', () => {
 
   test('Check saving account details', async ({ page }) => {
     // Act
-    await page.getByTestId('login-input').fill(login);
-    await page.getByTestId('password-input').fill(password);
-    await page.getByTestId('login-button').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(userID);
+    await loginPage.passwordInput.fill(userPassword);
+    await loginPage.loginButton.click();
 
     await page.locator('article').filter({ hasText: 'TEStos (22 xxxx xxxx xxxx' }).locator('a').click();
 
@@ -87,9 +94,10 @@ test.describe('Pulpit tests', () => {
   test('Log out from the desktop', async ({ page }) => {
 
     // Act
-    await page.getByTestId('login-input').fill(login);
-    await page.getByTestId('password-input').fill(password);
-    await page.getByTestId('login-button').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(userID);
+    await loginPage.passwordInput.fill(userPassword);
+    await loginPage.loginButton.click();
 
     await page.getByTestId('logout-button').click();
     await page.getByRole('heading', { name: 'Wersja demonstracyjna serwisu' }).click();
