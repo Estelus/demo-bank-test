@@ -3,8 +3,8 @@ import { LoginPage } from '../pages/login.page';
 import { loginData } from '../test-data/login.data';
 import { DesktopPage } from '../pages/desktop.page';
 
-test.describe('Pulpit tests', () => { 
-      // Arrange
+test.describe('Desktop tests', () => { 
+    // Arrange
   test.beforeEach(async ({page}) => {
     const url = 'https://demo-bank.vercel.app/';
     await page.goto(url)  
@@ -46,14 +46,14 @@ test.describe('Pulpit tests', () => {
 
     await desktopPage.widgetTopupReceiver.selectOption('502 xxx xxx');
     await desktopPage.widgetTopUpAmount.fill(transferAmount);
-    await page.locator('#uniform-widget_1_topup_agreement span').click();
-    await page.getByRole('button', { name: 'doładuj telefon' }).click();
-    await page.getByTestId('close-button').click();
+    await desktopPage.widgetTopupAgreementSpan.click();
+    await desktopPage.buttonForTopUpPhone.click();
+    await desktopPage.closeButton.click();                                               
     // Assert
     await expect(page.locator('#show_messages')).toHaveText(`Doładowanie wykonane! ${transferAmount},00PLN na numer 502 xxx xxx`);
   });
 
-  test('Click to see account details', async ({ page }) => {
+  test('See account details', async ({ page }) => {
     // Act
     const loginPage = new LoginPage(page);
     const desktopPage = new DesktopPage(page)
@@ -62,7 +62,7 @@ test.describe('Pulpit tests', () => {
     await loginPage.loginButton.click();
 
     await desktopPage.accountsList.getByText('więcej').click();
-    await page.locator('#owner').click();
+    await desktopPage.accountOwner.click();
 
     // Assert
     await expect(page.locator('#owner')).toHaveText(`${expectedUsername}`); 

@@ -7,7 +7,11 @@ export class DesktopPage {
     widgetTransferTitle = this.page.locator('#widget_1_transfer_title');
     widgetTopupReceiver = this.page.locator('#widget_1_topup_receiver');
     widgetTopUpAmount = this.page.locator('#widget_1_topup_amount');
+    widgetTopupAgreementSpan = this.page.locator('#uniform-widget_1_topup_agreement span');
+    buttonForTopUpPhone = this.page.getByRole('button', { name: 'doładuj telefon' });
+    closeButton = this.page.getByTestId('close-button');
     accountsList = this.page.locator('#accounts_list'); 
+    accountOwner = this.page.locator('#owner');
     financialManagerButton = this.page.locator('form').filter({ hasText: 'manager finansowy wpływy i' }).getByRole('combobox');
     savingAccountDetails = this.page.locator('article').filter({ hasText: 'TEStos (22 xxxx xxxx xxxx' }).locator('a');
     logoutButton = this.page.getByTestId('logout-button'); 
