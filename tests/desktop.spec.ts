@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
 import { loginData } from '../test-data/login.data';
+import { PulpitPage } from '../pages/desktop.page';
 
 test.describe('Pulpit tests', () => { 
       // Arrange
@@ -53,11 +54,12 @@ test.describe('Pulpit tests', () => {
   test('Click to see account details', async ({ page }) => {
     // Act
     const loginPage = new LoginPage(page);
+    const pulpitPage = new PulpitPage(page);
     await loginPage.loginInput.fill(userID);
     await loginPage.passwordInput.fill(userPassword);
     await loginPage.loginButton.click();
 
-    await page.locator('#accounts_list').getByText('więcej').click();
+    await pulpitPage.accountsList.getByText('więcej').click();
     await page.locator('#owner').click();
 
     // Assert
@@ -65,14 +67,14 @@ test.describe('Pulpit tests', () => {
   });
 
   test('Check receipts and expenses', async ({ page }) => {
-
     // Act
     const loginPage = new LoginPage(page);
+    const pulpitPage = new PulpitPage(page);
     await loginPage.loginInput.fill(userID);
     await loginPage.passwordInput.fill(userPassword);
     await loginPage.loginButton.click();
 
-    await page.locator('form').filter({ hasText: 'manager finansowy wpływy i' }).getByRole('combobox').selectOption('1');
+    await pulpitPage.financialManagerButton.selectOption('1');
 
     // Assert
     await expect(page.locator('form').filter({ hasText: 'manager finansowy wpływy i' })).toHaveClass(`box-white widget`);
@@ -81,26 +83,27 @@ test.describe('Pulpit tests', () => {
   test('Check saving account details', async ({ page }) => {
     // Act
     const loginPage = new LoginPage(page);
+    const pulpitPage = new PulpitPage(page)
     await loginPage.loginInput.fill(userID);
     await loginPage.passwordInput.fill(userPassword);
     await loginPage.loginButton.click();
 
-    await page.locator('article').filter({ hasText: 'TEStos (22 xxxx xxxx xxxx' }).locator('a').click();
+    await pulpitPage.savingAccountDetails.click();
 
     // Assert
     await expect(page.getByText('Progress')).toHaveId(""); 
   });
 
   test('Log out from the desktop', async ({ page }) => {
-
     // Act
     const loginPage = new LoginPage(page);
+    const pulpitPage = new PulpitPage(page);
     await loginPage.loginInput.fill(userID);
     await loginPage.passwordInput.fill(userPassword);
     await loginPage.loginButton.click();
 
-    await page.getByTestId('logout-button').click();
-    await page.getByRole('heading', { name: 'Wersja demonstracyjna serwisu' }).click();
+    await pulpitPage.logoutButton.click();
+    await pulpitPage.pageHeading.click();
 
     // Assert
     await expect(page.getByRole('heading', {name: 'Wersja demonstracyjna serwisu'})).toHaveText(`Wersja demonstracyjna serwisu Demobank`);
