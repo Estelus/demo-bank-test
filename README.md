@@ -1,4 +1,4 @@
-# Test Automation training 
+# Test Automation 
 
 ## Links
 
