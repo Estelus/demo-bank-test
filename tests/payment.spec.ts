@@ -7,8 +7,9 @@ test.describe('Payment tests', () => {
   test.beforeEach(async ({ page }) => {
     const userId = loginData.userId;
     const userPassword = loginData.userPassword;
+    const url = 'https://demo-bank.vercel.app/'
 
-    await page.goto('/');
+    await page.goto(url);
     const loginPage = new LoginPage(page);
     await loginPage.loginInput.fill(userId);
     await loginPage.passwordInput.fill(userPassword);

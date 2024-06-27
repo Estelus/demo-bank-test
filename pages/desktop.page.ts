@@ -11,9 +11,9 @@ export class DesktopPage {
     buttonForTopUpPhone = this.page.getByRole('button', { name: 'doładuj telefon' });
     closeButton = this.page.getByTestId('close-button');
     accountsList = this.page.locator('#accounts_list'); 
-    accountOwner = this.page.locator('#owner');
+    accountOwner = this.page.getByTestId('user-name');
     financialManagerButton = this.page.locator('form').filter({ hasText: 'manager finansowy wpływy i' }).getByRole('combobox');
-    savingAccountDetails = this.page.locator('article').filter({ hasText: 'TEStos (22 xxxx xxxx xxxx' }).locator('a');
+    savingAccountDetails = this.page.getByTestId('account-number');
     logoutButton = this.page.getByTestId('logout-button'); 
     pageHeading = this.page.getByRole('heading', { name: 'Wersja demonstracyjna serwisu' });
 }
