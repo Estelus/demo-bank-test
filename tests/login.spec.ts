@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
+import { desktopData } from '../test-data/desktop.data';
 import { loginData } from '../test-data/login.data';
 
 test.describe('User login to Demobank', () => {
@@ -7,16 +8,13 @@ test.describe('User login to Demobank', () => {
     const url = 'https://demo-bank.vercel.app/';
     await page.goto(url)  
     });
-    const userID = loginData.userId
-    const userPassword = loginData.userPassword
-    const expectedUsername = 'Jan Demobankowy'
 
   test('Successful login with correct creditential', async ({ page }) => {
     const loginPage = new LoginPage(page);
     
     await loginPage.login(loginData.userId, loginData.userPassword);
 
-    await expect(page.getByTestId('user-name')).toHaveText(expectedUsername);
+    await expect(page.getByTestId('user-name')).toHaveText(desktopData.expectedUsername);
   });
 
   test('Unsuccessful login with too short userID', async ({ page }) => {
