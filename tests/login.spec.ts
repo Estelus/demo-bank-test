@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
-import { LoginPage } from '../pages/login.page';
 import { desktopData } from '../test-data/desktop.data';
+import { LoginPage } from '../pages/login.page';
+import { DesktopPage } from '../pages/desktop.page';
 import { loginData } from '../test-data/login.data';
 
 test.describe('User login to Demobank', () => {
@@ -10,11 +11,13 @@ test.describe('User login to Demobank', () => {
 
   test('Successful login with correct creditential', async ({ page }) => {
     const loginPage = new LoginPage(page);
+    const desktopPage = new DesktopPage(page);
     
     await loginPage.fillCredentials(loginData.userId, loginData.userPassword);
     await loginPage.login();
 
-    await expect(page.getByTestId('user-name')).toHaveText(desktopData.expectedUsername);
+
+    await expect(desktopPage.headerUserName).toHaveText(desktopData.expectedUsername);
   });
 
   test('Unsuccessful login with too short userID', async ({ page }) => {

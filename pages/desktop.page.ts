@@ -15,6 +15,7 @@ export class DesktopPage {
     savingAccountDetails: Locator;
     logoutButton: Locator;
     pageHeading: Locator;
+    headerUserName: Locator;
     
     constructor (private page: Page) {
     this.widgetTransferReceiver = page.locator('#widget_1_transfer_receiver');
@@ -31,5 +32,6 @@ export class DesktopPage {
     this.savingAccountDetails = page.getByTestId('account-number');
     this.logoutButton = page.getByTestId('logout-button');
     this.pageHeading = page.getByRole('heading', { name: 'Wersja demonstracyjna serwisu' });
+    this.headerUserName = page.getByTestId('user-name');
     }
 }
