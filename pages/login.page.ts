@@ -7,7 +7,7 @@ export class LoginPage {
     errorToShortLogin: Locator;
     errorToShortPassword: Locator;
 
-  constructor(page: Page) {
+  constructor(private page: Page) {
     this.loginInput = page.getByTestId('login-input');
     this.passwordInput = page.getByTestId('password-input');
     this.loginButton = page.getByTestId('login-button');
@@ -15,23 +15,29 @@ export class LoginPage {
     this.errorToShortPassword = page.getByTestId('error-login-password');
   }
 
-async login(userID: string, password: string) {
-  await this.loginInput.fill(userID);
-  await this.passwordInput.fill(password);
-  await this.loginButton.click();
-}
+  async fillCredentials(userID: string, password: string) {
+    await this.loginInput.fill(userID);
+    await this.loginInput.blur();
+    await this.passwordInput.fill(password);
+    await this.passwordInput.blur();
+  }
 
-async loginWithoutPassword(userID: string) {
-  await this.loginInput.fill(userID);
-  await this.passwordInput.fill('');
-  await this.passwordInput.blur();
-}
+  async login() {
+    await this.loginButton.click();
+  }
 
-async loginWithoutUsername(password: string) {
-  await this.loginInput.fill('');
-  await this.passwordInput.blur();
-  await this.passwordInput.fill(password);
-}
+  async loginWithoutPassword(userID: string) {
+    await this.loginInput.fill(userID);
+    await this.passwordInput.click();
+    await this.passwordInput.blur();
+  }
+
+  async loginWithoutUsername(password: string) {
+    await this.loginInput.click();
+    await this.loginInput.blur();
+    await this.passwordInput.fill(password);
+    await this.passwordInput.blur();
+  }
 
 }
 

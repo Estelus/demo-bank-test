@@ -1,19 +1,35 @@
-import { Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 export class DesktopPage {
-    constructor (private page: Page) {}
-    widgetTransferReceiver = this.page.locator('#widget_1_transfer_receiver');
-    widgetTransferAmount = this.page.locator('#widget_1_transfer_amount'); 
-    widgetTransferTitle = this.page.locator('#widget_1_transfer_title');
-    widgetTopupReceiver = this.page.locator('#widget_1_topup_receiver');
-    widgetTopUpAmount = this.page.locator('#widget_1_topup_amount');
-    widgetTopupAgreementSpan = this.page.locator('#uniform-widget_1_topup_agreement span');
-    buttonForTopUpPhone = this.page.getByRole('button', { name: 'doładuj telefon' });
-    closeButton = this.page.getByTestId('close-button');
-    accountsList = this.page.locator('#accounts_list'); 
-    accountOwner = this.page.getByTestId('user-name');
-    financialManagerButton = this.page.locator('form').filter({ hasText: 'manager finansowy wpływy i' }).getByRole('combobox');
-    savingAccountDetails = this.page.getByTestId('account-number');
-    logoutButton = this.page.getByTestId('logout-button'); 
-    pageHeading = this.page.getByRole('heading', { name: 'Wersja demonstracyjna serwisu' });
+    widgetTransferReceiver: Locator;
+    widgetTransferAmount: Locator;
+    widgetTransferTitle: Locator;
+    widgetTopupReceiver: Locator;
+    widgetTopUpAmount: Locator;
+    widgetTopupAgreementSpan: Locator;
+    buttonForTopUpPhone: Locator;
+    closeButton: Locator;
+    accountsList: Locator;
+    accountOwner: Locator;
+    financialManagerButton: Locator;
+    savingAccountDetails: Locator;
+    logoutButton: Locator;
+    pageHeading: Locator;
+    
+    constructor (private page: Page) {
+    this.widgetTransferReceiver = page.locator('#widget_1_transfer_receiver');
+    this.widgetTransferAmount = page.locator('#widget_1_transfer_amount');
+    this.widgetTransferTitle = page.locator('#widget_1_transfer_title');
+    this.widgetTopupReceiver = page.locator('#widget_1_topup_receiver');
+    this.widgetTopUpAmount = page.locator('#widget_1_topup_amount');
+    this.widgetTopupAgreementSpan = page.locator('#uniform-widget_1_topup_agreement span');
+    this.buttonForTopUpPhone = page.getByRole('button', { name: 'doładuj telefon' });
+    this.closeButton = page.getByTestId('close-button');
+    this.accountsList = page.locator('#accounts_list');
+    this.accountOwner = page.getByTestId('user-name');
+    this.financialManagerButton = page.locator('form').filter({ hasText: 'manager finansowy wpływy i' }).getByRole('combobox');
+    this.savingAccountDetails = page.getByTestId('account-number');
+    this.logoutButton = page.getByTestId('logout-button');
+    this.pageHeading = page.getByRole('heading', { name: 'Wersja demonstracyjna serwisu' });
+    }
 }

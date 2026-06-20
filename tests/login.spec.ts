@@ -12,7 +12,8 @@ test.describe('User login to Demobank', () => {
   test('Successful login with correct creditential', async ({ page }) => {
     const loginPage = new LoginPage(page);
     
-    await loginPage.login(loginData.userId, loginData.userPassword);
+    await loginPage.fillCredentials(loginData.userId, loginData.userPassword);
+    await loginPage.login();
 
     await expect(page.getByTestId('user-name')).toHaveText(desktopData.expectedUsername);
   });
@@ -20,17 +21,17 @@ test.describe('User login to Demobank', () => {
   test('Unsuccessful login with too short userID', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
-    await loginPage.login(loginData.toShortUserId, loginData.userPassword);
+    await loginPage.fillCredentials(loginData.toShortUserId, loginData.userPassword);
     
-    await expect(loginPage.errorToShortLogin).toHaveText(loginData.toShortUserId);
+    await expect(loginPage.errorToShortLogin).toHaveText(loginData.errorToShortUserId);
   })
 
   test('Unsuccessful login with too short password', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
-    await loginPage.login(loginData.toShortUserId, loginData.userPassword);
+    await loginPage.fillCredentials(loginData.userId, loginData.toShortPassword);
     
-    await expect(loginPage.errorToShortPassword).toHaveText(loginData.ToShortPassword);
+    await expect(loginPage.errorToShortPassword).toHaveText(loginData.errorToShortPassword);
   })
 
   test('Unsuccessful login with no userID', async ({ page }) => {

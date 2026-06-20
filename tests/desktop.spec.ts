@@ -1,113 +1,81 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
+import { desktopData } from '../test-data/desktop.data';
 import { loginData } from '../test-data/login.data';
 import { DesktopPage } from '../pages/desktop.page';
 
 test.describe('Desktop tests', () => { 
-    // Arrange
+
   test.beforeEach(async ({page}) => {
+    const loginPage = new LoginPage(page);
     const url = 'https://demo-bank.vercel.app/';
-    await page.goto(url)  
+    await page.goto(url)
+    await loginPage.fillCredentials(loginData.userId, loginData.userPassword);
+    await loginPage.login();
   });
-    const url = 'https://demo-bank.vercel.app/'
-    const userID = loginData.userId
-    const userPassword = loginData.userPassword
-    const expectedUsername = 'Jan Demobankowy'
-    const reciverID = '2'
-    const transferAmount = '100'
-    const transferTitle = 'Zwrot środków'
-    const expectedtransferReciver = 'Chuck Demobankowy'
 
   test('Quick payment with correct data', async ({ page }) => {
-    // Act
-    const loginPage = new LoginPage(page);
+
     const desktopPage = new DesktopPage(page)
-    await loginPage.loginInput.fill(userID);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
       
-    await desktopPage.widgetTransferReceiver.selectOption(reciverID);
-    await desktopPage.widgetTransferAmount.fill(transferAmount);
-    await desktopPage.widgetTransferTitle.fill(transferTitle);
+    await desktopPage.widgetTransferReceiver.selectOption(desktopData.reciverID);
+    await desktopPage.widgetTransferAmount.fill(desktopData.transferAmount);
+    await desktopPage.widgetTransferTitle.fill(desktopData.transferTitle);
 
     await page.locator('#execute_btn').click();
     await page.getByTestId('close-button').click();
-    // Assert  
-    await expect(page.locator('#show_messages')).toHaveText(`Przelew wykonany! ${expectedtransferReciver} - ${transferAmount},00PLN - ${transferTitle}`);
+
+    await expect(page.locator('#show_messages')).toHaveText(`Przelew wykonany! ${desktopData.expectedtransferReciver} - ${desktopData.transferAmount},00PLN - ${desktopData.transferTitle}`);
   });
 
   test('Quick phone recharge with correct data', async ({ page }) => {
-    // Act
+
     const loginPage = new LoginPage(page);
     const desktopPage = new DesktopPage(page)
-    await loginPage.loginInput.fill(userID);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
 
     await desktopPage.widgetTopupReceiver.selectOption('502 xxx xxx');
-    await desktopPage.widgetTopUpAmount.fill(transferAmount);
+    await desktopPage.widgetTopUpAmount.fill(desktopData.transferAmount);
     await desktopPage.widgetTopupAgreementSpan.click();
     await desktopPage.buttonForTopUpPhone.click();
     await desktopPage.closeButton.click();                                               
-    // Assert
-    await expect(page.locator('#show_messages')).toHaveText(`Doładowanie wykonane! ${transferAmount},00PLN na numer 502 xxx xxx`);
+
+    await expect(page.locator('#show_messages')).toHaveText(`Doładowanie wykonane! ${desktopData.transferAmount},00PLN na numer 502 xxx xxx`);
   });
 
   test('See account details', async ({ page }) => {
-    // Act
-    const loginPage = new LoginPage(page);
+  
     const desktopPage = new DesktopPage(page)
-    await loginPage.loginInput.fill(userID);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
 
     await desktopPage.accountsList.getByText('więcej').click();
     await desktopPage.accountOwner.click();
 
-    // Assert
-    await expect(page.locator('#owner')).toHaveText(`${expectedUsername}`); 
+    await expect(page.locator('#owner')).toHaveText(`${desktopData.expectedUsername}`); 
   });
 
   test('Check receipts and expenses', async ({ page }) => {
-    // Act
-    const loginPage = new LoginPage(page);
+  
     const desktopPage = new DesktopPage(page);
-    await loginPage.loginInput.fill(userID);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
 
     await desktopPage.financialManagerButton.selectOption('1');
 
-    // Assert
     await expect(page.locator('form').filter({ hasText: 'manager finansowy wpływy i' })).toHaveClass(`box-white widget`);
   });
 
   test('Check saving account details', async ({ page }) => {
-    // Act
-    const loginPage = new LoginPage(page);
+
     const desktopPage = new DesktopPage(page);
-    await loginPage.loginInput.fill(userID);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
 
     await desktopPage.savingAccountDetails.click();
 
-    // Assert
     await expect(page.getByText('Progress')).toHaveId(""); 
   });
 
   test('Log out from the desktop', async ({ page }) => {
-    // Act
-    const loginPage = new LoginPage(page);
     const desktopPage = new DesktopPage(page);
-    await loginPage.loginInput.fill(userID);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
 
     await desktopPage.logoutButton.click();
     await desktopPage.pageHeading.click();
 
-    // Assert
     await expect(page.getByRole('heading', {name: 'Wersja demonstracyjna serwisu'})).toHaveText(`Wersja demonstracyjna serwisu Demobank`);
   });
   
