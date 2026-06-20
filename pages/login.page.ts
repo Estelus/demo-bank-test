@@ -1,12 +1,35 @@
-import { Page } from "@playwright/test";
+import { Locator, Page } from '@playwright/test';
 
 export class LoginPage {
-    constructor (private page: Page) {}
-    loginInput = this.page.getByTestId('login-input');    
-    passwordInput = this.page.getByTestId('password-input');
-    loginButton = this.page.getByTestId('login-button');
-    
-    loginError = this.page.getByTestId('error-login-id')
-    passwordError = this.page.getByTestId('error-login-password')
+    loginInput: Locator;
+    passwordInput: Locator;
+    loginButton: Locator;
+    errorToShortLogin: Locator;
+    errorToShortPassword: Locator;
+
+  constructor(page: Page) {
+    this.loginInput = page.getByTestId('login-input');
+    this.passwordInput = page.getByTestId('password-input');
+    this.loginButton = page.getByTestId('login-button');
+    this.errorToShortLogin = page.getByTestId('error-login-id');
+    this.errorToShortPassword = page.getByTestId('error-login-password');
+  }
+
+async login(userID: string, password: string) {
+  await this.loginInput.fill(userID);
+  await this.passwordInput.fill(password);
+  await this.loginButton.click();
+}
+
+async loginWithoutPassword(userID: string) {
+  await this.loginInput.fill(userID);
+  await this.loginInput.blur();
+}
+
+async loginWithoutUsername(password: string) {
+  await this.passwordInput.fill(password);
+  await this.passwordInput.blur();
+}
+
 }
 
