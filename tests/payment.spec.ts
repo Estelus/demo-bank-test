@@ -5,15 +5,12 @@ import { PaymentPage } from '../pages/payment.page';
 
 test.describe('Payment tests', () => {
   test.beforeEach(async ({ page }) => {
-    const userId = loginData.userId;
-    const userPassword = loginData.userPassword;
-    const url = 'https://demo-bank.vercel.app/'
 
-    await page.goto(url);
+
+    await page.goto('/');
     const loginPage = new LoginPage(page);
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
+    await loginPage.fillCredentials(loginData.userId, loginData.userPassword);
+    await loginPage.login();
 
     await page.getByRole('link', { name: 'płatności' }).click();
   });

@@ -8,8 +8,7 @@ test.describe('Desktop tests', () => {
 
   test.beforeEach(async ({page}) => {
     const loginPage = new LoginPage(page);
-    const url = 'https://demo-bank.vercel.app/';
-    await page.goto(url)
+    await page.goto('/');
     await loginPage.fillCredentials(loginData.userId, loginData.userPassword);
     await loginPage.login();
   });
