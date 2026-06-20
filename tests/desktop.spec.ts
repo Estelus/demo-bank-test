@@ -30,7 +30,6 @@ test.describe('Desktop tests', () => {
 
   test('Quick phone recharge with correct data', async ({ page }) => {
 
-    const loginPage = new LoginPage(page);
     const desktopPage = new DesktopPage(page)
 
     await desktopPage.widgetTopupReceiver.selectOption('502 xxx xxx');
