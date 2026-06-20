@@ -32,5 +32,21 @@ test.describe('User login to Demobank', () => {
     
     await expect(loginPage.errorToShortPassword).toHaveText(loginData.ToShortPassword);
   })
+
+  test('Unsuccessful login with no userID', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+
+    await loginPage.loginWithoutUsername(loginData.userPassword);
+    
+    await expect(loginPage.errorToShortLogin).toHaveText(loginData.errorNoUserId);
+  })
+
+    test('Unsuccessful login with no password', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+
+    await loginPage.loginWithoutPassword(loginData.userId);
+    
+    await expect(loginPage.errorToShortPassword).toHaveText(loginData.errorNoPassword);
+  })
   
 });

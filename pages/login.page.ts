@@ -23,12 +23,14 @@ async login(userID: string, password: string) {
 
 async loginWithoutPassword(userID: string) {
   await this.loginInput.fill(userID);
-  await this.loginInput.blur();
+  await this.passwordInput.fill('');
+  await this.passwordInput.blur();
 }
 
 async loginWithoutUsername(password: string) {
-  await this.passwordInput.fill(password);
+  await this.loginInput.fill('');
   await this.passwordInput.blur();
+  await this.passwordInput.fill(password);
 }
 
 }
