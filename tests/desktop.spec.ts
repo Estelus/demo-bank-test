@@ -21,10 +21,10 @@ test.describe('Desktop tests', () => {
     await desktopPage.widgetTransferAmount.fill(desktopData.transferAmount);
     await desktopPage.widgetTransferTitle.fill(desktopData.transferTitle);
 
-    await page.locator('#execute_btn').click();
-    await page.getByTestId('close-button').click();
+    await desktopPage.executeTransferButton.click();
+    await desktopPage.closeTransferButton.click();
 
-    await expect(page.locator('#show_messages')).toHaveText(`Przelew wykonany! ${desktopData.expectedtransferReciver} - ${desktopData.transferAmount},00PLN - ${desktopData.transferTitle}`);
+    await expect(page.locator('#show_messages')).toHaveText(desktopData.sucessfulTransferMessage);
   });
 
   test('Quick phone recharge with correct data', async ({ page }) => {
