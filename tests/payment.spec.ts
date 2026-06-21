@@ -5,7 +5,6 @@ import { PaymentPage } from '../pages/payment.page';
 
 test.describe('Payment tests', () => {
   test.beforeEach(async ({ page }) => {
-
     await page.goto('/');
     const loginPage = new LoginPage(page);
     await loginPage.fillCredentials(loginData.userId, loginData.userPassword);

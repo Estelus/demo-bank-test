@@ -1,60 +1,69 @@
-import { Locator, Page } from "@playwright/test";
-import { desktopData } from "../test-data/desktop.data";
+import { Locator, Page } from '@playwright/test';
+import { desktopData } from '../test-data/desktop.data';
 
 export class DesktopPage {
-    widgetTransferReceiver: Locator;
-    widgetTransferAmount: Locator;
-    widgetTransferTitle: Locator;
-    widgetTopupReceiver: Locator;
-    widgetTopUpAmount: Locator;
-    widgetTopupAgreementSpan: Locator;
-    buttonForTopUpPhone: Locator;
-    closeButton: Locator;
-    accountsList: Locator;
-    accountOwner: Locator;
-    financialManagerButton: Locator;
-    savingAccountDetails: Locator;
-    logoutButton: Locator;
-    pageHeading: Locator;
-    headerUserName: Locator;
-    executeTransferButton: Locator;
-    closeTransferButton: Locator;
-    
-    constructor (private page: Page) {
+  widgetTransferReceiver: Locator;
+  widgetTransferAmount: Locator;
+  widgetTransferTitle: Locator;
+  widgetTopupReceiver: Locator;
+  widgetTopUpAmount: Locator;
+  widgetTopupAgreementSpan: Locator;
+  buttonForTopUpPhone: Locator;
+  closeButton: Locator;
+  accountsList: Locator;
+  accountOwner: Locator;
+  financialManagerButton: Locator;
+  savingAccountDetails: Locator;
+  logoutButton: Locator;
+  pageHeading: Locator;
+  headerUserName: Locator;
+  executeTransferButton: Locator;
+  closeTransferButton: Locator;
+
+  constructor(private page: Page) {
     this.widgetTransferReceiver = page.locator('#widget_1_transfer_receiver');
     this.widgetTransferAmount = page.locator('#widget_1_transfer_amount');
     this.widgetTransferTitle = page.locator('#widget_1_transfer_title');
     this.widgetTopupReceiver = page.locator('#widget_1_topup_receiver');
     this.widgetTopUpAmount = page.locator('#widget_1_topup_amount');
-    this.widgetTopupAgreementSpan = page.locator('#uniform-widget_1_topup_agreement span');
-    this.buttonForTopUpPhone = page.getByRole('button', { name: 'doładuj telefon' });
+    this.widgetTopupAgreementSpan = page.locator(
+      '#uniform-widget_1_topup_agreement span',
+    );
+    this.buttonForTopUpPhone = page.getByRole('button', {
+      name: 'doładuj telefon',
+    });
     this.closeButton = page.getByTestId('close-button');
     this.accountsList = page.locator('#accounts_list');
     this.accountOwner = page.getByTestId('user-name');
-    this.financialManagerButton = page.locator('form').filter({ hasText: 'manager finansowy wpływy i' }).getByRole('combobox');
+    this.financialManagerButton = page
+      .locator('form')
+      .filter({ hasText: 'manager finansowy wpływy i' })
+      .getByRole('combobox');
     this.savingAccountDetails = page.getByTestId('account-number');
     this.logoutButton = page.getByTestId('logout-button');
-    this.pageHeading = page.getByRole('heading', { name: 'Wersja demonstracyjna serwisu' });
+    this.pageHeading = page.getByRole('heading', {
+      name: 'Wersja demonstracyjna serwisu',
+    });
     this.headerUserName = page.getByTestId('user-name');
     this.executeTransferButton = page.locator('#execute_btn');
     this.closeTransferButton = page.getByTestId('close-button');
-    }
-
-    async quickPayment(reciverID: string, amount: string, title: string) {
-        await this.widgetTransferReceiver.selectOption(reciverID);
-        await this.widgetTransferAmount.fill(amount);
-        await this.widgetTransferTitle.fill(title);
-
-        await this.executeTransferButton.click();
-        await this.closeTransferButton.click();
   }
 
-    async quickPhoneTopUp(TopupReceiver: string, transferAmount: string) {
-        await this.widgetTopupReceiver.selectOption(TopupReceiver);
-        await this.widgetTopUpAmount.fill(transferAmount);
+  async quickPayment(reciverID: string, amount: string, title: string) {
+    await this.widgetTransferReceiver.selectOption(reciverID);
+    await this.widgetTransferAmount.fill(amount);
+    await this.widgetTransferTitle.fill(title);
 
-        await this.widgetTopupAgreementSpan.click();
-        await this.buttonForTopUpPhone.click();
-        await this.closeButton.click();                  
+    await this.executeTransferButton.click();
+    await this.closeTransferButton.click();
+  }
+
+  async quickPhoneTopUp(TopupReceiver: string, transferAmount: string) {
+    await this.widgetTopupReceiver.selectOption(TopupReceiver);
+    await this.widgetTopUpAmount.fill(transferAmount);
+
+    await this.widgetTopupAgreementSpan.click();
+    await this.buttonForTopUpPhone.click();
+    await this.closeButton.click();
   }
 }

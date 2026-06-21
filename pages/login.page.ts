@@ -1,11 +1,11 @@
 import { Locator, Page } from '@playwright/test';
 
 export class LoginPage {
-    loginInput: Locator;
-    passwordInput: Locator;
-    loginButton: Locator;
-    errorToShortLogin: Locator;
-    errorToShortPassword: Locator;
+  loginInput: Locator;
+  passwordInput: Locator;
+  loginButton: Locator;
+  errorToShortLogin: Locator;
+  errorToShortPassword: Locator;
 
   constructor(private page: Page) {
     this.loginInput = page.getByTestId('login-input');
@@ -38,6 +38,4 @@ export class LoginPage {
     await this.passwordInput.fill(password);
     await this.passwordInput.blur();
   }
-
 }
-
