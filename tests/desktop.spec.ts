@@ -21,25 +21,15 @@ test.describe('Desktop tests', () => {
       desktopData.transferTitle,
     );
 
-    await expect(page.locator('#show_messages')).toHaveText(
-      desktopData.sucessfulTransferMessage,
-    );
+    await expect(desktopPage.transferMessage).toHaveText(desktopData.sucessfulTransferMessage);
   });
 
   test('Quick phone recharge with correct data', async ({ page }) => {
     const desktopPage = new DesktopPage(page);
 
-    await desktopPage.widgetTopupReceiver.selectOption(
-      desktopData.TopupReceiver,
-    );
-    await desktopPage.widgetTopUpAmount.fill(desktopData.transferAmount);
-    await desktopPage.widgetTopupAgreementSpan.click();
-    await desktopPage.buttonForTopUpPhone.click();
-    await desktopPage.closeButton.click();
+    await desktopPage.quickPhoneTopUp(desktopData.reciverID, desktopData.transferAmount);
 
-    await expect(page.locator('#show_messages')).toHaveText(
-      `Doładowanie wykonane! ${desktopData.transferAmount},00PLN na numer 502 xxx xxx`,
-    );
+    await expect(desktopPage.transferMessage).toHaveText(desktopData.sucessfulPhoneTopupMessage);
   });
 
   test('See account details', async ({ page }) => {
@@ -48,9 +38,7 @@ test.describe('Desktop tests', () => {
     await desktopPage.accountsList.getByText('więcej').click();
     await desktopPage.accountOwner.click();
 
-    await expect(page.locator('#owner')).toHaveText(
-      `${desktopData.expectedUsername}`,
-    );
+    await expect(page.locator('#owner')).toHaveText(`${desktopData.expectedUsername}`);
   });
 
   test('Check receipts and expenses', async ({ page }) => {
@@ -77,8 +65,8 @@ test.describe('Desktop tests', () => {
     await desktopPage.logoutButton.click();
     await desktopPage.pageHeading.click();
 
-    await expect(
-      page.getByRole('heading', { name: 'Wersja demonstracyjna serwisu' }),
-    ).toHaveText(`Wersja demonstracyjna serwisu Demobank`);
+    await expect(page.getByRole('heading', { name: 'Wersja demonstracyjna serwisu' })).toHaveText(
+      `Wersja demonstracyjna serwisu Demobank`,
+    );
   });
 });

@@ -16,35 +16,23 @@ test.describe('User login to Demobank', () => {
     await loginPage.fillCredentials(loginData.userId, loginData.userPassword);
     await loginPage.login();
 
-    await expect(desktopPage.headerUserName).toHaveText(
-      desktopData.expectedUsername,
-    );
+    await expect(desktopPage.headerUserName).toHaveText(desktopData.expectedUsername);
   });
 
   test('Unsuccessful login with too short userID', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
-    await loginPage.fillCredentials(
-      loginData.toShortUserId,
-      loginData.userPassword,
-    );
+    await loginPage.fillCredentials(loginData.toShortUserId, loginData.userPassword);
 
-    await expect(loginPage.errorToShortLogin).toHaveText(
-      loginData.errorToShortUserId,
-    );
+    await expect(loginPage.errorToShortLogin).toHaveText(loginData.errorToShortUserId);
   });
 
   test('Unsuccessful login with too short password', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
-    await loginPage.fillCredentials(
-      loginData.userId,
-      loginData.toShortPassword,
-    );
+    await loginPage.fillCredentials(loginData.userId, loginData.toShortPassword);
 
-    await expect(loginPage.errorToShortPassword).toHaveText(
-      loginData.errorToShortPassword,
-    );
+    await expect(loginPage.errorToShortPassword).toHaveText(loginData.errorToShortPassword);
   });
 
   test('Unsuccessful login with no userID', async ({ page }) => {
@@ -52,9 +40,7 @@ test.describe('User login to Demobank', () => {
 
     await loginPage.loginWithoutUsername(loginData.userPassword);
 
-    await expect(loginPage.errorToShortLogin).toHaveText(
-      loginData.errorNoUserId,
-    );
+    await expect(loginPage.errorToShortLogin).toHaveText(loginData.errorNoUserId);
   });
 
   test('Unsuccessful login with no password', async ({ page }) => {
@@ -62,8 +48,6 @@ test.describe('User login to Demobank', () => {
 
     await loginPage.loginWithoutPassword(loginData.userId);
 
-    await expect(loginPage.errorToShortPassword).toHaveText(
-      loginData.errorNoPassword,
-    );
+    await expect(loginPage.errorToShortPassword).toHaveText(loginData.errorNoPassword);
   });
 });

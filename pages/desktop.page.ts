@@ -19,6 +19,7 @@ export class DesktopPage {
   headerUserName: Locator;
   executeTransferButton: Locator;
   closeTransferButton: Locator;
+  transferMessage: Locator;
 
   constructor(private page: Page) {
     this.widgetTransferReceiver = page.locator('#widget_1_transfer_receiver');
@@ -26,9 +27,7 @@ export class DesktopPage {
     this.widgetTransferTitle = page.locator('#widget_1_transfer_title');
     this.widgetTopupReceiver = page.locator('#widget_1_topup_receiver');
     this.widgetTopUpAmount = page.locator('#widget_1_topup_amount');
-    this.widgetTopupAgreementSpan = page.locator(
-      '#uniform-widget_1_topup_agreement span',
-    );
+    this.widgetTopupAgreementSpan = page.locator('#uniform-widget_1_topup_agreement span');
     this.buttonForTopUpPhone = page.getByRole('button', {
       name: 'doładuj telefon',
     });
@@ -47,6 +46,7 @@ export class DesktopPage {
     this.headerUserName = page.getByTestId('user-name');
     this.executeTransferButton = page.locator('#execute_btn');
     this.closeTransferButton = page.getByTestId('close-button');
+    this.transferMessage = page.locator('#show_messages');
   }
 
   async quickPayment(reciverID: string, amount: string, title: string) {
