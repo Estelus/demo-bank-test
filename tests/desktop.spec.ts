@@ -17,12 +17,7 @@ test.describe('Desktop tests', () => {
 
     const desktopPage = new DesktopPage(page)
       
-    await desktopPage.widgetTransferReceiver.selectOption(desktopData.reciverID);
-    await desktopPage.widgetTransferAmount.fill(desktopData.transferAmount);
-    await desktopPage.widgetTransferTitle.fill(desktopData.transferTitle);
-
-    await desktopPage.executeTransferButton.click();
-    await desktopPage.closeTransferButton.click();
+    await desktopPage.quickPayment(desktopData.reciverID, desktopData.transferAmount, desktopData.transferTitle);
 
     await expect(page.locator('#show_messages')).toHaveText(desktopData.sucessfulTransferMessage);
   });
@@ -31,7 +26,7 @@ test.describe('Desktop tests', () => {
 
     const desktopPage = new DesktopPage(page)
 
-    await desktopPage.widgetTopupReceiver.selectOption('502 xxx xxx');
+    await desktopPage.widgetTopupReceiver.selectOption(desktopData.TopupReceiver);
     await desktopPage.widgetTopUpAmount.fill(desktopData.transferAmount);
     await desktopPage.widgetTopupAgreementSpan.click();
     await desktopPage.buttonForTopUpPhone.click();

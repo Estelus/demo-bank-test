@@ -5,4 +5,5 @@ export const desktopData = {
     transferTitle: 'Zwrot środków',
     expectedtransferReciver: 'Chuck Demobankowy',
     sucessfulTransferMessage: `Przelew wykonany! Chuck Demobankowy - 100,00PLN - Zwrot środków`,
+    TopupReceiver: '502 xxx xxx',
   };

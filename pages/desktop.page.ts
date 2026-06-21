@@ -1,4 +1,5 @@
 import { Locator, Page } from "@playwright/test";
+import { desktopData } from "../test-data/desktop.data";
 
 export class DesktopPage {
     widgetTransferReceiver: Locator;
@@ -38,4 +39,22 @@ export class DesktopPage {
     this.executeTransferButton = page.locator('#execute_btn');
     this.closeTransferButton = page.getByTestId('close-button');
     }
+
+    async quickPayment(reciverID: string, amount: string, title: string) {
+        await this.widgetTransferReceiver.selectOption(reciverID);
+        await this.widgetTransferAmount.fill(amount);
+        await this.widgetTransferTitle.fill(title);
+
+        await this.executeTransferButton.click();
+        await this.closeTransferButton.click();
+  }
+
+    async quickPhoneTopUp(TopupReceiver: string, transferAmount: string) {
+        await this.widgetTopupReceiver.selectOption(TopupReceiver);
+        await this.widgetTopUpAmount.fill(transferAmount);
+
+        await this.widgetTopupAgreementSpan.click();
+        await this.buttonForTopUpPhone.click();
+        await this.closeButton.click();                  
+  }
 }
