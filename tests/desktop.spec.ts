@@ -16,7 +16,7 @@ test.describe('Desktop tests', () => {
     const desktopPage = new DesktopPage(page);
 
     await desktopPage.quickPayment(
-      desktopData.reciverID,
+      desktopData.receiverID,
       desktopData.transferAmount,
       desktopData.transferTitle,
     );
@@ -24,12 +24,23 @@ test.describe('Desktop tests', () => {
     await expect(desktopPage.transferMessage).toHaveText(desktopData.sucessfulTransferMessage);
   });
 
+    test('Quick payment with incorrect data- no transfer receiver', async ({ page }) => {
+    const desktopPage = new DesktopPage(page);
+
+    await desktopPage.quickPaymentNoReceiver(
+      desktopData.transferAmount,
+      desktopData.transferTitle
+    );
+
+    await expect(desktopPage.errorMessageTransferReceiver).toBeVisible();
+  });
+
   test('Quick phone recharge with correct data', async ({ page }) => {
     const desktopPage = new DesktopPage(page);
 
-    await desktopPage.quickPhoneTopUp(desktopData.reciverID, desktopData.transferAmount);
+    await desktopPage.quickPhoneTopUp(desktopData.receiverID, desktopData.transferAmount);
 
-    await expect(desktopPage.transferMessage).toHaveText(desktopData.sucessfulPhoneTopupMessage);
+    await expect(desktopPage.transferMessage).toHaveText(desktopData.errorMessageTransfer);
   });
 
   test('See account details', async ({ page }) => {

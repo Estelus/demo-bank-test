@@ -20,6 +20,7 @@ export class DesktopPage {
   executeTransferButton: Locator;
   closeTransferButton: Locator;
   transferMessage: Locator;
+  errorMessageTransferReceiver: Locator;
 
   constructor(private page: Page) {
     this.widgetTransferReceiver = page.locator('#widget_1_transfer_receiver');
@@ -47,15 +48,23 @@ export class DesktopPage {
     this.executeTransferButton = page.locator('#execute_btn');
     this.closeTransferButton = page.getByTestId('close-button');
     this.transferMessage = page.locator('#show_messages');
+    this.errorMessageTransferReceiver = page.getByTestId('error-widget-1-transfer-receiver');
   }
 
-  async quickPayment(reciverID: string, amount: string, title: string) {
-    await this.widgetTransferReceiver.selectOption(reciverID);
+  async quickPayment(receiverID: string, amount: string, title: string) {
+    await this.widgetTransferReceiver.selectOption(receiverID);
     await this.widgetTransferAmount.fill(amount);
     await this.widgetTransferTitle.fill(title);
 
     await this.executeTransferButton.click();
     await this.closeTransferButton.click();
+  }
+
+  async quickPaymentNoReceiver(amount: string, title: string) {
+    await this.widgetTransferAmount.fill(amount);
+    await this.widgetTransferTitle.fill(title);
+
+    await this.executeTransferButton.click();
   }
 
   async quickPhoneTopUp(TopupReceiver: string, transferAmount: string) {
