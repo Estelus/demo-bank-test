@@ -32,7 +32,18 @@ test.describe('Desktop tests', () => {
       desktopData.transferTitle
     );
 
-    await expect(desktopPage.errorMessageTransferReceiver).toBeVisible();
+    await expect(desktopPage.errorMessageTransferReceiver).toHaveText(desktopData.errorMessageTransfer);
+  });
+
+    test('Quick payment with incorrect data- no transfer amount', async ({ page }) => {
+    const desktopPage = new DesktopPage(page);
+
+    await desktopPage.quickPaymentNoTransferAmount(
+      desktopData.receiverID,
+      desktopData.transferTitle
+    );
+
+    await expect(desktopPage.errorMessageTransferAmount).toHaveText(desktopData.errorMessageTransfer);
   });
 
   test('Quick phone recharge with correct data', async ({ page }) => {
